@@ -10,14 +10,14 @@ const IndexPage = ({ data }) => {
     <Layout>
       {books.map(({ node }) => {
         return (
-          <>
-            <h1 key={node.id}>
+          <section key={node.id}>
+            <h1>
               {node.title}
               <small>{node.author.name}</small>
             </h1>
             <div>{node.summary}</div>
             <Link to={`/book/${node.id}`}>Join conversation</Link>
-          </>
+          </section>
         )
       })}
     </Layout>
@@ -30,6 +30,9 @@ export const query = graphql`
         node {
           summary
           title
+          localImage {
+            publicURL
+          }
           author {
             name
             id

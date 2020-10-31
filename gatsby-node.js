@@ -6,6 +6,9 @@ const bookQuery = ` {
       node {
         summary
         title
+         localImage {
+          publicURL
+        }
         author {
           name
           id
