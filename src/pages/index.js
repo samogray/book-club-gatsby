@@ -1,5 +1,5 @@
 import React from "react"
-import { graphql } from "gatsby"
+import { Link, graphql } from "gatsby"
 
 import Layout from "../components/layout"
 
@@ -10,10 +10,14 @@ const IndexPage = ({ data }) => {
     <Layout>
       {books.map(({ node }) => {
         return (
-          <h1 key={node.id}>
-            {node.title}
-            <small>{node.author.name}</small>
-          </h1>
+          <>
+            <h1 key={node.id}>
+              {node.title}
+              <small>{node.author.name}</small>
+            </h1>
+            <div>{node.summary}</div>
+            <Link to={`/book/${node.id}`}>Join conversation</Link>
+          </>
         )
       })}
     </Layout>
