@@ -1,17 +1,42 @@
 import React from "react"
 import Layout from "../components/layout"
+import Img from "gatsby-image"
+import BookItem from "../components/BookItem"
+import { graphql } from "gatsby"
 
-const BookPage = ({ pageContext }) => {
-  const { title, author, summary, localImage } = pageContext
+const BookPage = ({ data: { book } }) => {
+  const { title, author, summary, localImage } = book
   return (
     <Layout>
-      <img src={localImage.publicURL} alt={title} />
-      <h1>
-        {title} - <small>{author.name}</small>
-      </h1>
-      <p>{summary}</p>
+      <BookItem
+        title={title}
+        author={author}
+        summary={summary}
+        imgSrc={localImage.childImageSharp.fixed}
+      />
     </Layout>
   )
 }
+
+export const query = graphql`
+  query BookQuery($bookId: String!) {
+    book(id: { eq: $bookId }) {
+      id
+      title
+      summary
+      localImage {
+        childImageSharp {
+          fixed(width: 200) {
+            ...GatsbyImageSharpFixed
+          }
+        }
+      }
+      author {
+        name
+        id
+      }
+    }
+  }
+`
 
 export default BookPage

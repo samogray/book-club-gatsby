@@ -1,6 +1,6 @@
 import React from "react"
 import { Link, graphql } from "gatsby"
-
+import BookItem from "../components/BookItem"
 import Layout from "../components/layout"
 
 const IndexPage = ({ data }) => {
@@ -10,14 +10,15 @@ const IndexPage = ({ data }) => {
     <Layout>
       {books.map(({ node }) => {
         return (
-          <section key={node.id}>
-            <h1>
-              {node.title}
-              <small>{node.author.name}</small>
-            </h1>
-            <div>{node.summary}</div>
+          <div key={node.id}>
+            <BookItem
+              title={node.title}
+              author={node.author}
+              summary={node.summary}
+              imgSrc={node.localImage.childImageSharp.fixed}
+            />
             <Link to={`/book/${node.id}`}>Join conversation</Link>
-          </section>
+          </div>
         )
       })}
     </Layout>
@@ -31,7 +32,11 @@ export const query = graphql`
           summary
           title
           localImage {
-            publicURL
+            childImageSharp {
+              fixed(width: 200) {
+                ...GatsbyImageSharpFixed
+              }
+            }
           }
           author {
             name

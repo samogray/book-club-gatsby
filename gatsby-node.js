@@ -4,15 +4,6 @@ const bookQuery = ` {
   allBook {
     edges {
       node {
-        summary
-        title
-         localImage {
-          publicURL
-        }
-        author {
-          name
-          id
-        }
         id
       }
     }
@@ -34,7 +25,7 @@ exports.createPages = async ({ graphql, actions }) => {
       return createPage({
         path: `/book/${book.node.id}`,
         component: bookPageTemplate,
-        context: book.node,
+        context: { bookId: book.node.id },
       })
     })
   } catch (e) {
